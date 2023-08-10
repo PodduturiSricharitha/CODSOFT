@@ -1,0 +1,44 @@
+#importing tkinter module
+import tkinter as tk
+
+#defining function for performing and calculating and displaying 
+def clicking(event):
+    # Geting current text from display and the button value that was clicked
+    crnt_text = display_box.get()
+    b_value = event.widget.cget("text")
+    # If the button is "=", perform the calculation
+    if b_value == "=":
+        try:
+            r= eval(crnt_text )
+            display_box.set(r)
+        except Exception as e:
+            display_box.set("Error")
+    elif b_value == "C":
+        display_box.set("")
+    else:
+        display_box.set(crnt_text + b_value)
+
+# initializing window
+calculator= tk.Tk()
+calculator.title("Basic Calculator")
+
+# storing the display text in a variable
+display_box = tk.StringVar()
+# Creating the display
+display = tk.Entry(calculator, textvar=display_box, font="Helvetica 20 bold", justify="right")
+display.grid(row=0, column=0, columnspan=4)
+
+# Creating the buttons along with their positions
+buttons_list = [
+    ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
+    ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
+    ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+    ("0", 4, 0), (".", 4, 1), ("=", 4, 2), ("+", 4, 3),
+    ("C", 5, 0)
+]
+for b_value, row, col in buttons_list:
+    button = tk.Button(calculator, text=b_value, font="Helvetica 20 bold", padx=20, pady=20)
+    button.grid(row=row, column=col)
+    button.bind("<Button-1>",clicking)
+# starting main event loop
+calculator.mainloop()
