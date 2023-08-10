@@ -1,0 +1,51 @@
+#importing necessary modules
+import tkinter as tk
+from tkinter import messagebox
+#defining a function for commanding ADD button
+def add_task():
+    task = entry_task.get()
+    if task.strip():
+        tasks_box.insert(tk.END, task)
+        entry_task.delete(0, tk.END)
+    else:
+        messagebox.showwarning("ERROR", "Please enter the task!")
+# defining a function for commanding DELETE button
+def delete_task():
+    try:
+        index = tasks_box.curselection()[0]
+        tasks_box.delete(index)
+    except IndexError:
+        messagebox.showwarning("ERROR", "Please select a task to delete!")
+#defining a function for commanding UPDATE button
+def update_task():
+    try:
+        index = tasks_box.curselection()[0]
+        updated_task = entry_task.get()
+        if updated_task.strip():
+            tasks_box.delete(index)
+            tasks_box.insert(index, updated_task)
+            entry_task.delete(0, tk.END)
+        else:
+            messagebox.showwarning("ERROR", "Task cannot be empty!")
+    except IndexError:
+        messagebox.showwarning("ERROR", "Please select a task to update!")
+
+app= tk.Tk()
+app.title("To-Do List")
+# Entry widget to enter tasks
+entry_task = tk.Entry(app,bg='beige', width=50)
+entry_task.pack(pady=10)
+# Listbox to display tasks
+tasks_box = tk.Listbox(app,bg='beige', height=10, width=50, border=0)
+tasks_box.pack()
+# Buttons to perform actions
+button_add = tk.Button(app,bg='green', text="Add Task", command=add_task)
+button_add.pack(pady=5)
+
+button_delete = tk.Button(app,bg='red',text="Delete Task", command=delete_task)
+button_delete.pack(pady=5)
+
+button_update = tk.Button(app,bg='sky blue',text="Update Task", command=update_task)
+button_update.pack(pady=5)
+# Starting the main loop
+app.mainloop()
